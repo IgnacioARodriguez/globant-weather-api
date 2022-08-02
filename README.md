@@ -9,7 +9,7 @@ This project is an API where you can set a country and a city and get the curren
 * Once the local environment is activated install the dependencies that are found in 'requirements.txt' ("pip install -r requirements.txt").
 * When finished installing the dependencies go inside the directory "weather_project".
 * Run the django server ("python manage.py runserver").
-* Now open yout browser or software where you call an endpoint to use the url containing the parameters needed to call the API. (http://127.0.0.1:8000/weather/?city=<city>&country=<twoDigitCountryCode>).
+* Now open yout browser or software where you call an endpoint to use the url containing the parameters needed to call the API. E.g. (http://127.0.0.1:8000/weather/?city=London&country=UK).
   
 ## Testing
   
