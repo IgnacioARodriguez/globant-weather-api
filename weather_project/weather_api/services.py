@@ -1,8 +1,14 @@
+from datetime import datetime
+
+import beaufort_scale
 import requests
 import requests_cache
-import beaufort_scale
 from decouple import config
-from datetime import datetime
+
+from .exceptions.city_or_country_error import CityOrCountryError
+from .exceptions.temperature_convertion_error import TemperatureError
+from .exceptions.time_convertion_error import TimeConvertionError
+from .exceptions.wind_degree_error import WindDegreeError
 
 
 class WeatherApiServices(object):
@@ -19,7 +25,7 @@ class WeatherApiServices(object):
                 temperature) - 273.15
             return round(temperature_in_celsius, 2)
         except:
-            raise Exception('Incorrect temperature data')
+            raise TemperatureError
 
     def get_temperature_in_fahrenheit(self, temperature):
         try:
@@ -27,7 +33,7 @@ class WeatherApiServices(object):
                 temperature) * 9/5 - 459.67
             return round(temperature_in_fahrenheit, 2)
         except:
-            raise Exception('Incorrect temperature data')
+            raise TemperatureError
 
     def degrees_to_compass(self, degrees):
         try:
@@ -36,14 +42,14 @@ class WeatherApiServices(object):
                        "south", "south-south-west", "south-west", "west-south-west", "west", "west-north-west", "north-west", "north-north-west"]
             return compass[(deg % 16)]
         except:
-            raise Exception('Incorrect wind degree data')
+            raise WindDegreeError
 
     def utc_time_convertion(self, time):
         try:
             utc_time = datetime.fromtimestamp(time)
             return utc_time.strftime('%H:%M')
         except:
-            raise Exception('Incorrect time data')
+            raise TimeConvertionError
 
     def get_forecast_weather_data(self):
         if self.forecast['cod'] == '200':
@@ -59,7 +65,7 @@ class WeatherApiServices(object):
                 })
             return forecast_data
         else:
-            raise Exception('City or country not found')
+            raise CityOrCountryError
 
     def get_current_weather_data(self):
         if self.weather['cod'] == 200:
@@ -78,4 +84,4 @@ class WeatherApiServices(object):
             }
             return weather_data
         else:
-            raise Exception('City or country not found')
+            raise CityOrCountryError

@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from .services import WeatherApiServices
 
 # Create your tests here.
