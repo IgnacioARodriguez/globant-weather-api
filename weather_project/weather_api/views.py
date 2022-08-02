@@ -1,4 +1,3 @@
-import requests
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -9,7 +8,11 @@ from weather_api.services import WeatherApiServices
 
 @api_view(['GET'])
 def get_weather(request):
-    weather = WeatherApiServices(request)
-    print(weather)
-    weather_json = weather.parsed_weather()
-    return Response(weather_json)
+    city = request.query_params['city']
+    country = request.query_params['country']
+    try:
+        weather_data = WeatherApiServices(
+            city, country).get_current_weather_data()
+        return Response(weather_data)
+    except Exception as e:
+        return Response(e.args[0])
